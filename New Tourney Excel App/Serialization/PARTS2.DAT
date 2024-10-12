@@ -1,0 +1,77 @@
+ItemName(All Inventory Items)
+Part(
+    ItemName(Standard Computer)
+    Part(
+        ItemName(CPU)
+    )
+    Part(
+        ItemName(Monitor)
+    )
+    Part(
+        ItemName(Hard Disk)
+    )
+    Part(
+        ItemName(CD-ROM)
+    )
+)
+Part(
+    ItemName(Multi-Media Workstation)
+    Part(
+        ItemName(CPU)
+    )
+    Part(
+        ItemName(Monitor)
+    )
+    Part(
+        ItemName(Hard Disk)
+    )
+    Part(
+        ItemName(Multi-Media Package)
+        Part(
+            ItemName(CD-ROM)
+        )
+        Part(
+            ItemName(Speakers)
+        )
+        Part(
+            ItemName(Sound Card)
+        )
+        Part(
+            ItemName(Graphics Accelerator)
+        )
+    )
+)
+Part(
+    ItemName(Billing History Server)
+    Part(
+        ItemName(CPU)
+    )
+    Part(
+        ItemName(Monitor)
+    )
+    Part(
+        ItemName(Hard Disk)
+    )
+    Part(
+        ItemName(CD-ROM Tower)
+        Part(
+            ItemName(CD-ROM)
+        )
+        Part(
+            ItemName(CD-ROM)
+        )
+        Part(
+            ItemName(CD-ROM)
+        )
+        Part(
+            ItemName(CD-ROM)
+        )
+        Part(
+            ItemName(CD-ROM)
+        )
+    )
+    Part(
+        ItemName(Printer)
+    )
+)
+

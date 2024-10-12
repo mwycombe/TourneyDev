@@ -1,0 +1,250 @@
+Option Explicit
+#Const debugMode = 1
+'singleton pattern for shared global variables
+'name is m_ for module; l for local; xx for class id; g for global
+Private m_lng As NapaGlobals
+Private m_ltcg As TourneyClass
+Private m_lpcg As PoolClass
+Private m_lcsg As ConsySetUp
+Private m_lmsg As MainSetUp
+Private m_lmfg As MainFinancials
+Private m_lcfg As ConsyFinancials
+Private m_lmpg As mainPools
+Private m_lcpg As consyPools
+Private m_lmeg As MainEntries
+Private m_lmrg As MainRoster
+Private m_lcrg As ConsyRoster
+
+' [ testing section]
+Function IsWorkBookOpen(wbn As String) As Boolean
+   Dim xlWb As Workbook
+   On Error Resume Next
+   Set xlWb = Workbooks.Item(wbn)
+   IsWorkBookOpen = (Not xlWb Is Nothing)
+End Function
+Public Function FileExists(fn As String) As Boolean
+  If Dir(fn) = "" Then
+    FileExists = False
+  Else
+    FileExists = True
+  End If
+End Function
+
+'[methods section]
+'
+' All classes are created empty
+'
+' [CREATE CLASSES section]
+
+' create a singleton of NapaGlobals which is a bunch of reference material
+Public Function createNapaGlobals() As NapaGlobals
+   If m_lng Is Nothing Then
+      Set m_lng = New NapaGlobals
+   End If
+   Set createNapaGlobals = m_lng
+End Function
+' create a singleton of the Touurney Class which holds all globlal information about the tourney
+Public Function createTourneyClass() As TourneyClass
+   If m_ltcg Is Nothing Then
+      Set m_ltcg = New TourneyClass
+   End If
+   Set createTourneyClass = m_ltcg
+   ' always get info from backing file
+   m_ltcg.RestoreTourneyClass
+End Function
+' there may be many instances of the pool class; it's not a singleton pattern
+Public Function createPoolClass()
+   If m_lpcg Is Nothing Then
+      Set m_lpcg = New PoolClass
+   End If
+   Set createPoolClass = m_lpcg
+   ' always get info from backing file
+   m_lpcg.RestorePoolClass
+End Function
+' create a singelton for the main setup
+
+Public Function createMainSetUp()
+   If m_lmsg Is Nothing Then
+      Set m_lmsg = New MainSetUp
+   End If
+   Set createMainSetUp = m_lmsg
+   ' always get info from backing file
+   m_lmsg.RestoreMainSetUp
+End Function
+' create a singelton for the consy setup
+Public Function createConsySetUp()
+   If m_lcsg Is Nothing Then
+      Set m_lcsg = New ConsySetUp
+   End If
+   Set createConsySetUp = m_lcsg
+   ' always get infr from backing file
+   m_lcsg.RestoreConsySetUp
+End Function
+Public Function createMainFinancials()
+   If m_lmfg Is Nothing Then
+      Set m_lmfg = New MainFinancials
+   End If
+   Set createMainFinancials = m_lmfg
+   ' always get info from backing file
+   m_lmfg.RestoreMainFinancials
+End Function
+Public Function createConsyFinancials()
+   If m_lcfg Is Nothing Then
+      Set m_lcfg = New ConsyFinancials
+   End If
+   Set createConsyFinancials = m_lcfg
+   ' always get info from backing file
+   m_lcfg.RestoreConsyFinancials
+End Function
+Public Function createMainPools()
+   If m_lmpg Is Nothing Then
+      Set m_lmpg = New mainPools
+   End If
+   Set createMainPools = m_lmpg
+   ' alway get info from backing file
+   m_lmpg.RestoreMainPools
+End Function
+Public Function createConsyPools()
+   If m_lcpg Is Nothing Then
+      Set m_lcpg = New consyPools
+   End If
+   Set createConsyPools = m_lcpg
+   ' always get info from backing file
+   m_lcpg.RestoreConsyPools
+End Function
+Public Function createMainEntries()
+   If m_lmeg Is Nothing Then
+      Set m_lmeg = New MainEntries
+   End If
+   Set createMainEntries = m_lmeg
+   ' always get info from backing file
+   m_lmeg.RestoreMainEntries
+End Function
+Public Function createMainRoster()
+   If m_lmrg Is Nothing Then
+      Set m_lmrg = New MainRoster
+   End If
+   Set createMainRoster = m_lmrg
+   ' always get info from backing file
+   m_lmrg.RestoreMainRoster
+End Function
+Public Function createConsyRoster()
+   If m_lcrg Is Nothing Then
+      Set m_lcrg = New ConsyRoster
+   End If
+   Set createConsyRoster = m_lcrg
+   ' always get info from backing file
+   m_lcrg.RestoreConsyRoster
+End Function
+
+
+' [RESET section]
+Sub resetConsyFinancials()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/consyFinancials.json"
+   Set m_lcfg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createConsyFinancials
+End Sub
+Sub resetConsySetUp()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/consySetUp.json"
+   Set m_lcsg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createConsySetUp
+End Sub
+Sub resetConsyPools()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/consyPoola.json"
+   Set m_lcpg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createConsyPools
+End Sub
+Sub resetConsyRoster()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/consyRoster.json"
+   Set m_lcrg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createConsyRoster
+End Sub
+Sub resetMainEntries()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/mainEntries.json"
+   Set m_lmeg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createMainEntries
+End Sub
+Sub resetMainFinancials()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/mainFinancials.json"
+   Set m_lmfg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createMainFinancials
+End Sub
+Sub resetMainPools()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/mainPoola.json"
+   Set m_lmpg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createMainPools
+End Sub
+Sub resetMainRoster()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/mainRoster.json"
+   Set m_lmrg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createMainRoster
+End Sub
+Sub resetMainSetUp()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/mainSetUp.json"
+   Set m_lmsg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createMainSetUp
+End Sub
+Sub resetCPoolClass()
+' remove singleton, create empty class and save empty
+   Dim backUpFileName As String
+   backUpFileName = ActiveWorkbook.Path & "/poolClass.json"
+   Set m_lpcg = Nothing
+   If FileExists(backUpFileName) Then
+      Kill (backUpFileName)
+   End If
+   createPoolClass
+End Sub
+Sub FinalShutDown()
+   '
+   ' Then finally close down self as everyone is dependent on TourneyGlobals by reference
+   '
+   Workbooks("Registration.xlsm").Close
+   ' and finally close myself
+   ThisWorkbook.Close
+End Sub
+

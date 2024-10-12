@@ -1,0 +1,193 @@
+Range("B10:U163").Sort key1:=Range("B10"),key2:=Range("C10"),Header:=xlNo
+ 
+Range("B10:U163").Sort key1:=Range("C10"),Header:=xlNo
+ 
+Range("B10:U163").Sort key1:=Range("U10"),key2:=Range("C10"),Header:=xlNo
+ 
+?application.WorksheetFunction.sum(Range("B10:B163"))
+ 5 
+?(range("C10").End(xlDown).row - range("C10").row + 1)
+ 163 
+
+Function DetectSelfFinancial() As Boolean
+    DetectSelfFinancial = True
+    N$ = ActiveWorkbook.Name
+    If N$ = "mFinancials.xlsm" Then
+        TT = "m"
+    ElseIf N$ = "cFinancials.xlsm" Then
+        TT = "c"
+    Else
+        DetectSelfFinancial = False
+    End If
+End Function
+
+' ensuring correct path and drive
+   MsgBox "You are at " & ActiveWorkbook.Path
+   '
+   ' mlr 4/20/2023
+   ' have to changed the current drive for excel to where the activeworkbook directory is.
+   ' otherwise, it just stays at the current directory for the current drive
+   '
+   ChDrive (Mid(ActiveWorkbook.Path, 1, 1))
+   ChDir (ActiveWorkbook.Path)
+
+Public Function provisionNapaGlobals() As NapaGlobals
+   Set provisionNapaGlobals = Run("TourneyGlobals.xlsm!createNapaGlobals")
+End Function
+
+Function IsRosterResultsOpen() As Boolean
+    'Financials.xlsm
+    On Error GoTo oops:
+    Windows(TT & "RosterResults.xlsm").Activate
+    On Error GoTo 0
+    IsRosterResultsOpen = True
+    Exit Function
+oops:
+    On Error GoTo 0
+End Function
+
+'Note: Workbook.activate throws and error if the workbook is not open.
+
+[CHECKING FOR WORKBOOK OPEN]
+
+Function IsWorkBookOpen(Name As String) As Boolean
+    Dim xWb As Workbook
+    On Error Resume Next
+    Set xWb = Application.Workbooks.Item(Name)
+    IsWorkBookOpen = (Not xWb Is Nothing)
+End Function
+
+Sub Sample()
+    Dim xRet As Boolean
+    xRet = IsWorkBookOpen("combine.xlsx")
+    If xRet Then
+        MsgBox "The file is open", vbInformation, "Kutools for Excel"
+    Else
+        MsgBox "The file is not open", vbInformation, "Kutools for Excel"
+    End If
+End Sub
+
+' check to see if a workbook is in the collection
+Sub vba_activate_workbook()
+Dim wb As Workbook
+For Each wb In Workbooks
+    If wb.Name = "Book3.xlsx" Then
+        wb.Activate
+        MsgBox "Workbook found and activated"
+        Exit Sub
+    End If
+Next wb
+    MsgBox "Not found"
+End Sub
+
+' save the active workbook
+ActiveWorkbook.Save
+
+' save the workbook where you are writing code
+ThisWorkbook.Save
+
+' save all open workbooks
+' could do the same to close all open workbooks (except yourself of course)
+Sub vba_save_workbook()
+'variable to use as a workbook
+Dim wb As Workbook
+'For each to loop through each open workbook and save it
+For Each wb In Workbooks
+    wb.Save
+Next wb
+End Sub
+
+Sub RippleNames()
+Dim Source
+  Workbooks("Vitals.xlsm").Activate
+  Worksheets("Vitals").Activate
+  Set Source = Range("A4")
+  While (Source <> "")
+    Source.Offset(0, 1).Name = Split(Source)(1)
+    Set Source = Source.Offset(1, 0)
+  Wend
+  
+End Sub
+
+[STEPPING THRU PAYOFF TABLE]
+[WE DON'T NEED TO DO THIS; WE CAN GO DIRECT]
+
+    c$ = "B"
+    For i = 1 To 70 'won't get that high!
+        If Range(c$ & "4").Value = NoQs Then
+            ' ccf$ is the column to use for payoff calcs	
+            ccf$ = c$
+            Exit For
+        End If
+        ' Current c$3 had the next column letter
+        c$ = Range(c$ & "3").Value
+    Next i
+ 
+[SORTING SIMPLY]
+
+Sub SortEntered_Click()
+   registrationEnd = (Range("c12").End(xlDown).Row)
+   Range("B12:U" & Mid(Str(registrationEnd), 2)).Sort _
+                                 key1:=Range("B12"), _
+                                 key2:=Range("C12"), _
+                                 Header:=xlNo
+End Sub 
+
+[MAKEING RANGES FOR COPY, SORT]
+
+Constructing a range from addresses of other ranges needs a range wraparouc
+
+' this method extracts that addresses and glues them together inside the
+' wraparound Range(....) object creation
+set copyrange = Range ( _
+		range("someName").offset(someOffset(x,y).address & _
+		":colName" & _
+		Mid(Str(EndRs),2) _
+		)
+' this method just glues together two single point ranges
+
+set anyRange = range("aName").offset(anOffset,y)) & ":" _
+		range("bName").offset(x,0))
+		
+		
+' The way Denny did it was similar to the wraparound Range method		
+dim WorkAreaRange as String '!!! - it's a string not a Range
+WorkAreaRange = "B" & Mid(Str(TopRowResults + 3), 2) & _
+		":P" & Mid(Str(TopRowResults + TotalInResultsList + 2), 2)
+' then creates an unknown Range
+Range(WorkAreaRange).Select
+ActiveWorkbook.Worksheets("Results").Sort.SortFields.Clear
+
+[COPY FROM SHEET TO SHEET]
+'In this example I am Copying the Data from Sheet1 (Source) to Sheet2 (Destination)
+Sub sbCopyRangeToAnotherSheet()
+
+'Method 1
+Sheets("Sheet1").Range("A1:B10").Copy Destination:=Sheets("Sheet2").Range("E1")
+
+'Method 2
+'Copy the data
+Sheets("Sheet1").Range("A1:B10").Copy
+'Activate the destination worksheet
+Sheets("Sheet2").Activate
+'Select the target range
+Range("E1").Select
+'Paste in the target destination
+ActiveSheet.Paste
+
+Application.CutCopyMode = False
+
+End Sub
+
+[HOW TO KILL OFF A SELECTON]
+
+application.sendkeys "{ESC}" doesn't always work
+
+Better is:
+Sheets("<sheetname>").select
+range("A1").select ' kills existing selection and returns to A1.
+
+[SELECT, COPY, AND PASTE]
+
+see ConsyCheckins.ConsyCheckins() for a good example of simple select, copy,
+	and Paste with print set up to follow, then print preview

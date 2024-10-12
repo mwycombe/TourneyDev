@@ -1,0 +1,50 @@
+' export Excel to JSON file	
+Public Sub exceltojsonfile()
+Dim rng As Range, items As New Collection, myitem As New Dictionary, i As Integer, cell As Variant, myfile As String
+Set rng = Range("A2:A3")
+'Set rng = Range(Sheets(2).Range("A2"), Sheets(2).Range("A2").End(xlDown)) use this for dynamic range
+i = 0
+For Each cell In rng
+Debug.Print (cell.Value)
+myitem("name") = cell.Value
+myitem("email") = cell.Offset(0, 1).Value
+myitem("phone") = cell.Offset(0, 2).Value
+items.Add myitem
+Set myitem = Nothing
+i = i + 1
+Next
+myfile = Application.ActiveWorkbook.Path &amp;amp; "\data.json"
+Open myfile For Output As #1
+Print #1, ConvertToJson(items, Whitespace:=2)
+Close #1
+End Sub
+
+' import JSON to Excel
+Public Sub exceljson()
+Dim http As Object, JSON As Object, i As Integer
+Set http = CreateObject("MSXML2.XMLHTTP")
+http.Open "GET", "http://jsonplaceholder.typicode.com/users", False
+http.Send
+Set JSON = ParseJson(http.responseText)
+i = 2
+For Each Item In JSON
+Sheets(1).Cells(i, 1).Value = Item("id")
+Sheets(1).Cells(i, 2).Value = Item("name")
+Sheets(1).Cells(i, 3).Value = Item("username")
+Sheets(1).Cells(i, 4).Value = Item("email")
+Sheets(1).Cells(i, 5).Value = Item("address")("city")
+Sheets(1).Cells(i, 6).Value = Item("phone")
+Sheets(1).Cells(i, 7).Value = Item("website")
+Sheets(1).Cells(i, 8).Value = Item("company")("name")
+i = i + 1
+Next
+MsgBox ("complete")
+End Sub
+
+' Reading JSON from a file
+Dim FSO As New FileSystemObject
+Dim JsonTS As TextStream
+Set JsonTS = FSO.OpenTextFile("example.json", ForReading)
+JsonText = JsonTS.ReadAll
+JsonTS.Close
+Set JSON = ParseJson(JsonText)

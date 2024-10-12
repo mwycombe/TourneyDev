@@ -1,0 +1,6 @@
+' vba generator will not handle a huge list
+Private Const PropertyList$ = "mainEntryCount;Integer;consyEntryCount;Integer;mainQualifiers;Integer;consyQualifiers;Integer" 
+'Private Const PropertyList$ ="mainEntryFees;Integer;consyEntryFees;Integer;mainQP1Pool;Integer;mainQP2Pool;Integer;mainQP3Pool;Integer;mainQP4Pool;Integer"
+'Private Const PropertyList$ ="consyQP1Pool;Integer;consyQP2Pool;Integer;consyQP3Pool;Integer;consyQP4Pool;Integer" 
+'Private Const PropertyList$ ="mainTotalXP;Integer;mainACCXP;Integer;mainLocationXP;Integer;mainFoodXP;Integer;mainSuppliesXP;Integer;mainAwardsXP;Integer"
+'Private Const PropertyList$ ="consyTotalXP;Integer;consyACCXP;Integer;consyLocationXP;Integer;consyFoodXP;Integer;consySuppliesXP;Integer;consyVitalsAwardsXP;Integer"

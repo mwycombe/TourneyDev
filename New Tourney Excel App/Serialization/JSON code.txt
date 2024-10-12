@@ -1,0 +1,241 @@
+' export Excel to JSON file	
+Public Sub exceltojsonfile()
+Dim rng As Range, items As New Collection, myitem As New Dictionary, i As Integer, cell As Variant, myfile As String
+Set rng = Range("A2:A3")
+'Set rng = Range(Sheets(2).Range("A2"), Sheets(2).Range("A2").End(xlDown)) use this for dynamic range
+i = 0
+For Each cell In rng
+	Debug.Print (cell.Value)
+	myitem("name") = cell.Value
+	myitem("email") = cell.Offset(0, 1).Value
+	myitem("phone") = cell.Offset(0, 2).Value
+	items.Add myitem
+	Set myitem = Nothing
+i = i + 1
+Next
+myfile = Application.ActiveWorkbook.Path &amp;amp; "\data.json"
+Open myfile For Output As #1
+Print #1, ConvertToJson(items, Whitespace:=2)
+Close #1
+End Sub
+
+' import JSON to Excel
+Public Sub exceljson()
+Dim http As Object, JSON As Object, i As Integer
+Set http = CreateObject("MSXML2.XMLHTTP")
+http.Open "GET", "http://jsonplaceholder.typicode.com/users", False
+http.Send
+Set JSON = ParseJson(http.responseText)
+i = 2
+For Each Item In JSON
+Sheets(1).Cells(i, 1).Value = Item("id")
+Sheets(1).Cells(i, 2).Value = Item("name")
+Sheets(1).Cells(i, 3).Value = Item("username")
+Sheets(1).Cells(i, 4).Value = Item("email")
+Sheets(1).Cells(i, 5).Value = Item("address")("city")
+Sheets(1).Cells(i, 6).Value = Item("phone")
+Sheets(1).Cells(i, 7).Value = Item("website")
+Sheets(1).Cells(i, 8).Value = Item("company")("name")
+i = i + 1
+Next
+MsgBox ("complete")
+End Sub
+
+' Reading JSON from a file
+Dim FSO As New FileSystemObject
+Dim JsonTS As TextStream
+Set JsonTS = FSO.OpenTextFile("example.json", ForReading)
+JsonText = JsonTS.ReadAll
+JsonTS.Close
+Set JSON = ParseJson(JsonText)
+
+[ class saving and restoring ]
+
+' Save Class to a Json file
+
+Sub Save1_Click()
+   If c1 Is Nothing Then
+      Debug.Print "Nothing in C1"
+      Exit Sub
+   End If
+   ' this is the json save for class 1
+   Dim myClass1 As New Dictionary
+   Dim items As New Collection
+   Dim myJsonFile As String
+   myClass1("p1") = c1.p1
+   myClass1("p2") = c1.p2
+   items.Add myClass1
+   myJsonFile = ActiveWorkbook.Path & "\class1.json"
+   Open myJsonFile For Output As #1
+   Print #1, ConvertToJson(items, Whitespace:=2)
+   Close #1
+End Sub
+
+' Restore Class from Json file
+
+Sub Restore1_Click()
+   ' this is the json restore for class 1
+   Dim FSO As New FileSystemObject
+   Dim JsonTS As TextStream
+   Dim myJsonFile As String
+   Dim JsonText As String
+   Dim JSON As Object
+   Dim Item
+   Dim Inner
+   myJsonFile = ActiveWorkbook.Path & "\class1.json"
+   Set JsonTS = FSO.OpenTextFile(myJsonFile, ForReading)
+   JsonText = JsonTS.ReadAll
+   Set JSON = ParseJson(JsonText)
+   Set c1 = New Class1
+   For Each Item In JSON
+      Debug.Print Item.Count
+      Debug.Print "p1:= " & Item("p1") & " p2:=" & Item("p2")
+      c1.p1 = Item("p1")
+      c1.p2 = Item("p2")
+   Next
+End Sub
+
+' Missing file
+Sub No_Class3_Click()
+   ' look for mssing file
+   Dim NoFile As String
+   NoFile = ActiveWorkbook.Path & "\class3.json"
+   On Error GoTo Absent
+   Open NoFile For Input As #2
+   Debug.Print NoFile & " not there"
+   Exit Sub
+Absent:
+   On Error GoTo 0
+   Resume Next
+End Sub
+
+[Clearing mainroster ]
+    Windows("mRosterResults.xlsm").Activate
+    'Clear "Entries"
+    Sheets("Entries").Select
+    RedoProtection "U"
+    Range("B12:O211").Value = ""
+    Range("B12").Select
+    RedoProtection ""
+    
+    Windows("RegistrationPrelim.xlsx").Activate
+    
+    [moving from regprelim to mroster]
+        LastRow = Range("B8").Value + 9
+        
+        Range("B10:B" & Mid(Str(LastRow), 2)).Copy
+        Windows("mRosterResults.xlsm").Activate
+        Sheets("Entries").Select
+        Range("B12").Select
+        ActiveSheet.Paste
+            
+        Windows("RegistrationPrelim.xlsx").Activate
+        Range("D10:O" & Mid(Str(LastRow), 2)).Copy
+        Windows("mRosterResults.xlsm").Activate
+        Range("D12").Select
+        ActiveSheet.Paste
+        
+        'seats
+        Windows("RegistrationPrelim.xlsx").Activate
+        Range("S10:S" & Mid(Str(LastRow), 2)).Copy
+        Windows("mRosterResults.xlsm").Activate
+        Sheets("Entries").Select
+        Range("Z12").Select
+        ActiveSheet.Paste
+            
+    Range("B12").Select
+    
+    [MERGED CELL CLEARING]
+    Sub Button1_Click()
+    
+    'Loop through Named Range, clearing contents
+    For Each m_cell In Range("Clear1stList")
+        m_cell.MergeArea.ClearContents
+        Next
+    
+    End Sub
+
+Sub Macro12()
+'
+' Macro12 Macro
+'
+' Keyboard Shortcut: Ctrl+Shift+S
+'
+'Save/Close ALL Worksheets except 0StartUp
+'
+'  mlr Dec 2022 Add close for label workbooks
+'
+    
+    On Error GoTo oops 'any not open will error to oops
+    Windows("RegistrationPrelim.xlsx").Activate
+    ActiveWorkbook.Save
+    Windows("RegistrationPrelim.xlsx").Close
+    
+    Windows("mRosterResults.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("mRosterResults.xlsm").Close
+    
+    Windows("mFinancials.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("mFinancials.xlsm").Close
+    
+    Windows("mSidePools.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("mSidePools.xlsm").Close
+    
+    Windows("cRosterResults.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("cRosterResults.xlsm").Close
+    
+    Windows("cFinancials.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("cFinancials.xlsm").Close
+    
+    Windows("cSidePools.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("cSidePools.xlsm").Close
+    
+    Windows("cSidePools.xlsm").Activate
+    ActiveWorkbook.Save
+    Windows("RegionalReport.xlsm").Close
+    
+    Windows("MainLabelList.xlsx").Activate
+    ActiveWorkbook.Save
+    Windows("MainLabellist.xlsx").Close
+    
+    Windows("PlayerListLabels.xlsx").Activate
+    ActiveWorkbook.Save
+    Windows("PlayerListLabels.xlsx").Close
+    
+    
+    On Error GoTo 0
+    Exit Sub
+
+oops:
+    'On Error GoTo 0
+    Resume Next
+End Sub
+
+FILE TESTING AND OPENING
+Sub DetectWorksheetThenOpen(n$)
+    Dim OpenFlg As Boolean
+    OpenFlg = True
+    On Error GoTo oops1
+    Windows(n$).Activate
+    If Not OpenFlg Then
+        Workbooks.Open Filename:=n$
+    End If
+    Exit Sub
+oops1:
+    OpenFlg = False
+    On Error GoTo 0
+    Resume Next
+End Sub
+
+CREATE A SCHEDULE TO RUN A MACRO IN THE FUTURES
+
+Application.OnTime ComputedDate,"Shutdown.xlsm!shutDown"
+	
+ComputedDate = DateAdd("s",10,Now)
+	
+

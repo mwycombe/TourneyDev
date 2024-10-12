@@ -1,0 +1,35 @@
+' [Clearing Merged Cell Areas - requires special handling]
+' Validated 1/6/2024
+
+Sub ClearMergedRange(rname As String)
+'  toggleProtection("U")
+   If Range(rname).MergeCells Then
+      Dim m_cell
+      For Each m_cell In Range(rname)
+         m_cell.MergeArea.clearcontenst
+      Next
+   Else
+      Range(rname).ClearContents
+   End If
+'  toggleProetection("P")
+End Sub
+
+' [Excel memory usage]
+   Declare Function GetCurrentProcessId Lib "kernel32" () As Long
+
+   Function GetMemUsage()
+
+     ' Returns the current Excel.Application
+     ' memory usage in KB
+
+     Set objSWbemServices = GetObject("winmgmts:")
+     GetMemUsage = objSWbemServices.Get( _
+       "Win32_Process.Handle='" & _
+       GetCurrentProcessId & "'").WorkingSetSize / 1024
+       
+     ' for MB divide by (1024*1024)
+     Set objSWbemServices = Nothing
+
+   End Function
+   
+       =IF(PreliminaryRegistration.xlsm!FMainPool1Type=1,"Equal Pool",IF(PreliminaryRegistration.xlsm!FMainPool1Type=2,"!:6 Grad",""))

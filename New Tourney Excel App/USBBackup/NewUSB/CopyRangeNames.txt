@@ -1,0 +1,80 @@
+Sub Copy_All_Defined_Names()
+   ' Loop through all of the defined names in the active
+   ' workbook.
+     For Each x In ActiveWorkbook.Names
+      ' Add each defined name from the active workbook to
+      ' the target workbook ("Book2.xls" or "Book2.xlsm").
+      ' "x.value" refers to the cell references the
+      ' defined name points to.
+      Workbooks("Book2.xls").Names.Add Name:=x.Name, _
+         RefersTo:=x.Value
+   Next x
+End Sub
+
+Sub CopyNames()
+'Gedefineerde namen kopiëren naar andere werkmap.
+    Dim x As Name
+    Dim wbDatabase As Workbook
+    Set wbDatabase = Workbooks("Database.xlsx")
+    
+    For Each x In wbDatabase.Names
+        ThisWorkbook.Names.Add Name:=x.Name, RefersTo:=x.Value
+    Next x
+End Sub
+
+Sub ShowAllNames()
+   Dim x As Name
+   For Each x In ActiveWorkbook.Names
+       x.Visible = True
+   Next x
+End Sub
+
+Sub CopyNames()
+'Gedefineerde namen kopiëren naar andere werkmap.
+    Dim x As Name
+    Dim wbDatabase As Workbook
+    Set wbDatabase = Workbooks("Database.xlsx")
+    
+    For Each x In wbDatabase.Names
+        If Not x.Name Like "_Filter*" Then
+          ThisWorkbook.Names.Add Name:=x.Name, RefersTo:=x.Value
+        End If
+    Next x
+End Sub
+
+Sub d0rian()
+   Dim Nme As Name
+   
+   For Each Nme In ThisWorkbook.Names
+      If Not Nme.Name Like "_xlfn*" Then
+         ' do something
+      End If
+   Next Nme
+End Sub
+
+Sub ShowAllNames()
+Row = 1
+For Each n In ActiveWorkbook.Names
+n.Visible = True
+Next n
+End Sub
+
+Sub List_All_Names()
+   Dim nmCurrentName
+   Dim rngCurrent
+
+   Set rngCurrent = Spreadsheet1.ActiveSheet.Range("A1")
+
+   ' Loop through all of the names in the active workbook.
+   For Each nmCurrentName In Spreadsheet1.ActiveWorkbook.Names
+
+      ' Write the current name to the worksheet.
+      rngCurrent.Value = nmCurrentName.Name
+
+      ' Write the definition of the current name to the worksheet.
+      rngCurrent.Offset(0, 1).Value = "'" & nmCurrentName.RefersTo
+
+      Set rngCurrent = rngCurrent.Offset(1, 0)
+   Next
+End Sub
+

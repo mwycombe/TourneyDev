@@ -1,0 +1,103 @@
+HANDLING PROJECT REFERENCES
+
+
+    Private Sub Workbook_BeforeClose(Cancel As Boolean)
+        If Cancel = True Then Exit Sub
+        RemoveReference
+    End Sub
+
+
+
+    Private Sub Workbook_Open()
+     AddReferences
+    End Sub
+
+
+Public Sub RemoveReference()
+On Error GoTo EH
+    Dim RefName As String
+    Dim ref As Reference
+    RefName = "Selenium"
+     
+    Set ref = ThisWorkbook.VBProject.References(RefName)
+    ThisWorkbook.VBProject.References.Remove ref
+    
+Exit Sub
+EH:
+'If an error was encountered, inform the user
+    Select Case Err.Number
+        Case Is = 9
+            MsgBox "The reference is already removed"
+        Exit Sub
+        Case Is = 1004
+            MsgBox "You probably do not have to have Trust Access To Visual Basic Project checked or macros enabled"
+        Exit Sub
+       Case Else
+         'An unknown error was encountered
+            MsgBox "Error in 'RemoveReference'" & vbCrLf & vbCrLf & Err.Description
+    End Select
+    
+Public Sub AddReferences()
+Dim wbk As Workbook
+Set wbk = ActiveWorkbook
+
+AddRef wbk, "{0277FC34-FD1B-4616-BB19-A9AABCAF2A70}", "Selenium"
+End Sub
+
+Sub AddRef(wbk As Workbook, sGuid As String, sRefName As String)
+Dim i As Byte
+On Error GoTo EH
+With wbk.VBProject.References
+    For i = 1 To .Count
+	If .item(i).Name = sRefName Then
+	   Exit For
+	End If
+    Next i
+    If i > .Count Then
+       .AddFromGuid sGuid, 0, 0 ' 0,0 should pick the latest version installed on the computer
+    End If
+End With
+
+Exit Sub
+
+EH:
+'If an error was encountered, inform the user
+Select Case Err.Number
+    Case Is = 1004
+	MsgBox "You probably do not have to have Trust Access To Visual Basic Project checked or macros enabled"
+    Exit Sub
+Case Else
+     'An unknown error was encountered
+	MsgBox "Error in 'AddRef'" & vbCrLf & vbCrLf & Err.Description
+End Select
+End Sub
+
+Public Sub ExistingRefs()
+ Dim i As Byte
+ On Error GoTo EH
+      With Application.ThisWorkbook.VBProject.References
+        For i = 1 To .Count
+            Debug.Print "    AddRef wbk, """ & .item(i).GUID & """, """ & .item(i).Name & """"
+        Next i
+    End With
+    
+Exit Sub
+EH:
+'If an error was encountered, inform the user
+    Select Case Err.Number
+        Case Is = 1004
+            MsgBox "You probably do not have to have Trust Access To Visual Basic Project checked or macros enabled"
+        Exit Sub
+    Case Else
+         'An unknown error was encountered
+            MsgBox "Error in 'ExistingRefs'" & vbCrLf & Err.Description
+    End Select
+End Sub
+
+Sub DeleteRef(RefName) 
+    Dim ref As Reference
+
+    'You need a reference to remove '
+    Set ref = References("Missing: ALTEntityPicker 1.0 Type Library")
+    vbProj.References.Remove ref
+End Sub
