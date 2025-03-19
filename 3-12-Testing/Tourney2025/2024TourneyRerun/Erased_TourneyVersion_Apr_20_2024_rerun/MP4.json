@@ -1,0 +1,10 @@
+[
+  {
+    "poolId": "MP4",
+    "poolFee": 50,
+    "poolCount": 16,
+    "poolPot": 800,
+    "poolType": 2,
+    "poolWinners": 3
+  }
+]

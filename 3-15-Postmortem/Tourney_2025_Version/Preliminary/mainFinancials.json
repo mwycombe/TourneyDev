@@ -1,0 +1,17 @@
+[
+  {
+    "mainTotalXP": 0,
+    "mainACCXP": 0,
+    "mainLocationXP": 0,
+    "mainFoodXP": 0,
+    "mainSuppliesXP": 0,
+    "mainAwardsXP": 0,
+    "mainPool": 0,
+    "mainPlayerBenefitXP": 0,
+    "mainNonBenefitXP": 0,
+    "mainNumbersAcquired": false,
+    "mainAllFinancialsDone": false,
+    "mainBeneFinancialsDone": true,
+    "mainNonBeneFinancialsDone": false
+  }
+]

@@ -1,0 +1,29 @@
+Log of testing 2024 tourney excel app for 2025
+
+
+XLCODE IS USB DRIVE
+
+XLCode(d)\NewUSB\CleanGamma								Appears to be unlocked version
+
+XLCode(D)\NewUSB\TourneyVesion								Appears to be locked
+
+
+E:\CribbageDev\TourneyDev
+
+
+..\TourneyVersion  									Unlocked
+
+
+E:\CribbageDev\TourneyDev\TourneyVersion_Apr_2024_rerun					Unlocked; copied from above TourneyVersion
+
+
+..\Common\TourneyApp									Older 2023 version
+
+..\Desktop\TourneyApp									Older 2023 version
+
+..\Laptop\TourneyApp									Older 2023 version
+		
+
+
+
+e:\CribbageDev\TourneyDev\New Tourney Excel App\NewUSB\					This is unlocked and seems to be root of USB
