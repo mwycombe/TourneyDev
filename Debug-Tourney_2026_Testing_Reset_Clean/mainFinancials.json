@@ -7,11 +7,11 @@
     "mainSuppliesXP": 0,
     "mainAwardsXP": 0,
     "mainPool": 0,
-    "mainPlayerBenefitXP": 0,
+    "mainPlayerBenefitXP": 619,
     "mainNonBenefitXP": 0,
-    "mainNumbersAcquired": false,
-    "mainAllFinancialsDone": false,
-    "mainBeneFinancialsDone": false,
-    "mainNonBeneFinancialsDone": false
+    "mainNumbersAcquired": true,
+    "mainAllFinancialsDone": true,
+    "mainBeneFinancialsDone": true,
+    "mainNonBeneFinancialsDone": true
   }
 ]

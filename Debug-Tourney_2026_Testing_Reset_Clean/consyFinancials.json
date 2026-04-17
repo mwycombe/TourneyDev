@@ -7,11 +7,11 @@
     "consySuppliesXP": 0,
     "consyAwardsXPP": 0,
     "consyPool": 0,
-    "consyPlayerBenefitXP": 0,
+    "consyPlayerBenefitXP": 82,
     "consyNonBenefitXP": 0,
-    "consyNumbersAcquired": false,
-    "consyAllFinancialsDone": false,
-    "consyBeneFinancialsDone": false,
-    "consyNonBeneFinancialsDone": false
+    "consyNumbersAcquired": true,
+    "consyAllFinancialsDone": true,
+    "consyBeneFinancialsDone": true,
+    "consyNonBeneFinancialsDone": true
   }
 ]

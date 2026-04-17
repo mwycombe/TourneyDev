@@ -1,18 +1,18 @@
 [
   {
-    "tourneyName": "",
-    "tourneyLocation": "",
-    "tourneyCity": "",
-    "tourneyDate": "",
+    "tourneyName": "Napa Wine Country Open",
+    "tourneyLocation": "The Moose Lodge",
+    "tourneyCity": "Napa CA 94558",
+    "tourneyDate": "4/18/2026",
     "perCapitaDonation": 0,
     "fixedDonation": 0,
-    "director1_name": "",
+    "director1_name": "Roland Hall",
     "director1_phone": "",
     "director1_email": "",
-    "director2_name": "",
+    "director2_name": "Yvonne Bowers",
     "director2_phone": "",
     "director2_email": "",
-    "director3_name": "",
+    "director3_name": "Michael Roger",
     "director3_phone": "",
     "director3_email": ""
   }
