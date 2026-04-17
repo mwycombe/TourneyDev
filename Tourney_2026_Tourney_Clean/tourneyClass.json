@@ -1,19 +1,19 @@
 [
   {
-    "tourneyName": "",
-    "tourneyLocation": "",
-    "tourneyCity": "",
-    "tourneyDate": "",
+    "tourneyName": "Napa Wine County Open",
+    "tourneyLocation": "The Moose Lodge",
+    "tourneyCity": "Napa CA 94558",
+    "tourneyDate": "4/18/2026",
     "perCapitaDonation": 0,
     "fixedDonation": 0,
-    "director1_name": "",
-    "director1_phone": "",
-    "director1_email": "",
-    "director2_name": "",
-    "director2_phone": "",
-    "director2_email": "",
-    "director3_name": "",
-    "director3_phone": "",
-    "director3_email": ""
+    "director1_name": "Roland Hall",
+    "director1_phone": "707-738-0799",
+    "director1_email": "roland29@gmail.com",
+    "director2_name": "Yvonne Bowers",
+    "director2_phone": "707-873-0109",
+    "director2_email": "cribbageclub100@gmail.com",
+    "director3_name": "Michael Rogers",
+    "director3_phone": "510-504-6905",
+    "director3_email": "mlr94549@yahoo.com"
   }
 ]
