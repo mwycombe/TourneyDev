@@ -2,9 +2,9 @@
   {
     "poolId": "MP2",
     "poolFee": 10,
-    "poolCount": 0,
-    "poolPot": 0,
+    "poolCount": 31,
+    "poolPot": 310,
     "poolType": 2,
-    "poolWinners": 0
+    "poolWinners": 6
   }
 ]

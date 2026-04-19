@@ -2,9 +2,9 @@
   {
     "poolId": "MP4",
     "poolFee": 50,
-    "poolCount": 0,
-    "poolPot": 0,
+    "poolCount": 20,
+    "poolPot": 1000,
     "poolType": 2,
-    "poolWinners": 0
+    "poolWinners": 4
   }
 ]

@@ -2,9 +2,9 @@
   {
     "poolId": "CP1",
     "poolFee": 10,
-    "poolCount": 0,
-    "poolPot": 0,
+    "poolCount": 23,
+    "poolPot": 230,
     "poolType": 1,
-    "poolWinners": 0
+    "poolWinners": 7
   }
 ]
